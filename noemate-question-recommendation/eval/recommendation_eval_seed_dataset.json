@@ -1,0 +1,564 @@
+[
+  {
+    "id": "knowledge_attach_flow",
+    "source_type": "知识问答",
+    "skill": "CN_KnowledgeQA",
+    "original_query": "3GPP协议Attach流程是什么？",
+    "rewritten_query": "解释3GPP Attach流程并总结关键步骤",
+    "answer_summary": "已按时序解释 Attach 流程，但还没有给出失败点、告警映射和运维入口。",
+    "entities": {
+      "feature": ["Attach"],
+      "network_element": ["MME"],
+      "version": ["27.0"]
+    },
+    "result_tags": {
+      "has_root_cause": false,
+      "has_impact": false,
+      "has_evidence": false,
+      "has_trend": false,
+      "has_action": false
+    },
+    "memory_candidates": [
+      "Attach流程里最常见的失败点有哪些？",
+      "如果Attach异常，通常会触发哪些告警或指标波动？",
+      "在华为MME上，Attach相关配置如何查看？"
+    ],
+    "gold_questions": [
+      "Attach流程里最常见的失败点有哪些？",
+      "如果Attach异常，通常会触发哪些告警或KPI波动？",
+      "在华为MME上，Attach相关配置或查看命令是什么？",
+      "能否给出基于27.0版本的Attach配置示例？"
+    ],
+    "expected_dimensions": ["knowledge", "evidence", "action"],
+    "disallowed_questions": [
+      "还有什么异常？",
+      "还能看什么？"
+    ]
+  },
+  {
+    "id": "knowledge_radio_connection",
+    "source_type": "知识问答",
+    "skill": "CN_KnowledgeQA",
+    "original_query": "无线建立连接的信元是什么结构？有什么功能？",
+    "rewritten_query": "解释无线连接建立相关信元结构和功能",
+    "answer_summary": "已经解释信元结构和功能，但缺少与运维侧相关的失败点、KPI和查看方式。",
+    "entities": {
+      "feature": ["无线连接建立"],
+      "network_element": ["eNodeB"]
+    },
+    "result_tags": {
+      "has_root_cause": false,
+      "has_impact": false,
+      "has_evidence": false,
+      "has_trend": false,
+      "has_action": false
+    },
+    "memory_candidates": [
+      "无线连接建立流程里最常见的失败点有哪些？",
+      "该流程异常时应优先关注哪些KPI和告警？",
+      "在华为eNodeB上，相关配置如何查看？"
+    ],
+    "gold_questions": [
+      "无线连接建立流程里最常见的失败点有哪些？",
+      "该流程异常时应优先关注哪些KPI和告警？",
+      "在华为eNodeB上，相关配置如何查看？"
+    ],
+    "expected_dimensions": ["knowledge", "evidence", "action"],
+    "disallowed_questions": [
+      "再解释一遍无线连接建立是什么？"
+    ]
+  },
+  {
+    "id": "knowledge_feature_config_example",
+    "source_type": "知识问答",
+    "skill": "CN_KnowledgeQA",
+    "original_query": "输出基于XX网元XX版本的XX特性的端到端配置举例",
+    "rewritten_query": "给出指定网元版本下指定特性的端到端配置示例",
+    "answer_summary": "已给出特性说明，但还未落到具体配置命令、查看命令和异常排查入口。",
+    "entities": {
+      "feature": ["XX特性"],
+      "network_element": ["XX网元"],
+      "version": ["XX版本"]
+    },
+    "result_tags": {
+      "has_root_cause": false,
+      "has_impact": true,
+      "has_evidence": false,
+      "has_trend": false,
+      "has_action": false
+    },
+    "memory_candidates": [
+      "在华为XX网元上，XX特性相关配置或查看命令是什么？",
+      "能否给出基于XX版本的XX特性配置示例？",
+      "该特性异常时应优先关注哪些KPI和告警？"
+    ],
+    "gold_questions": [
+      "在华为XX网元上，XX特性相关配置或查看命令是什么？",
+      "能否给出基于XX版本的XX特性配置示例？",
+      "该特性异常时应优先关注哪些KPI和告警？"
+    ],
+    "expected_dimensions": ["action", "knowledge", "evidence"],
+    "disallowed_questions": [
+      "这个特性是什么原理？"
+    ]
+  },
+  {
+    "id": "complaint_volte_drop",
+    "source_type": "投诉分析",
+    "skill": "CN_CompSpirit",
+    "original_query": "We received complaint from MSISDN 66******** that he cannot VoLTE call dropped many times during XX Nov 2024, 12:20-12:35. What is the root cause?",
+    "rewritten_query": "分析MSISDN在指定时间段多次VoLTE掉话的根因",
+    "answer_summary": "已经定位到掉话现象，但还缺少同类影响范围、网络环节判断和信令证据。",
+    "entities": {
+      "msisdn": ["66********"],
+      "feature": ["VoLTE"],
+      "time_window": ["XX Nov 2024 12:20-12:35"]
+    },
+    "result_tags": {
+      "has_root_cause": false,
+      "has_impact": false,
+      "has_evidence": false,
+      "has_trend": false,
+      "has_action": false
+    },
+    "memory_candidates": [
+      "同时段是否还有其他用户出现类似掉话？",
+      "该问题更可能发生在哪个网络环节？",
+      "是否需要创建IMS信令跟踪进一步确认？"
+    ],
+    "gold_questions": [
+      "同时段是否还有其他用户出现类似问题？",
+      "该问题更可能发生在哪个网络环节？",
+      "这段时间有哪些异常信令或错误码？",
+      "是否需要创建跟踪进一步确认？"
+    ],
+    "expected_dimensions": ["impact", "root_cause", "evidence"],
+    "disallowed_questions": [
+      "过去一周这个指标的趋势如何？"
+    ]
+  },
+  {
+    "id": "complaint_hidden_risk_today",
+    "source_type": "隐患预测",
+    "skill": "CN_CompSpirit",
+    "original_query": "今天有哪些故障或隐患，导致用户业务受损？",
+    "rewritten_query": "识别今日故障隐患及其业务受损范围",
+    "answer_summary": "已经识别出若干异常点，但还未说明受影响用户范围、主要网络环节和佐证信息。",
+    "entities": {
+      "time_window": ["今天"]
+    },
+    "result_tags": {
+      "has_root_cause": false,
+      "has_impact": false,
+      "has_evidence": false,
+      "has_trend": false,
+      "has_action": false
+    },
+    "memory_candidates": [
+      "同时段是否还有其他用户出现类似问题？",
+      "该问题更可能发生在哪个网络环节？",
+      "这段时间有哪些异常信令或错误码？"
+    ],
+    "gold_questions": [
+      "同时段是否还有其他用户出现类似问题？",
+      "该问题更可能发生在哪个网络环节？",
+      "这段时间有哪些异常信令或错误码？",
+      "是否需要创建跟踪进一步确认？"
+    ],
+    "expected_dimensions": ["impact", "root_cause", "evidence"],
+    "disallowed_questions": [
+      "还有哪些故障？"
+    ]
+  },
+  {
+    "id": "fault_attach_drop",
+    "source_type": "辅助排障",
+    "skill": "CN_FaultSpirit",
+    "original_query": "Why attach success rate dropped at XX Nov 2024, 02:00? How many subscribers impact from this stat drop?",
+    "rewritten_query": "分析指定时间attach success rate下降原因及影响用户数",
+    "answer_summary": "已确认attach success rate在目标时段下降，但还未给出明确影响范围、根因对象和证据。",
+    "entities": {
+      "feature": ["Attach"],
+      "kpi": ["attach success rate"],
+      "time_window": ["XX Nov 2024 02:00"],
+      "network_element": ["MME"]
+    },
+    "result_tags": {
+      "has_root_cause": false,
+      "has_impact": false,
+      "has_evidence": false,
+      "has_trend": false,
+      "has_action": false
+    },
+    "memory_candidates": [
+      "这次异常影响了多少用户？",
+      "哪些区域或网元受到影响最大？",
+      "同时段是否有相关告警或错误码异常？"
+    ],
+    "gold_questions": [
+      "这次异常影响了多少用户？",
+      "哪些区域或网元受到影响最大？",
+      "同时段是否有关联告警或变更操作？",
+      "这次异常更可能由哪个网元、接口或Peer导致？"
+    ],
+    "expected_dimensions": ["impact", "root_cause", "evidence"],
+    "disallowed_questions": [
+      "过去一个月该指标的趋势如何？"
+    ]
+  },
+  {
+    "id": "fault_peer_spike",
+    "source_type": "辅助排障",
+    "skill": "CN_FaultSpirit",
+    "original_query": "Which Peer caused the traffic spike at USC/DRA",
+    "rewritten_query": "定位USC或DRA流量突增对应的Peer",
+    "answer_summary": "已经发现流量突增，但还没有说明影响范围、异常Peer佐证和关联告警。",
+    "entities": {
+      "peer": ["USC/DRA"],
+      "feature": ["流量突增"]
+    },
+    "result_tags": {
+      "has_root_cause": false,
+      "has_impact": false,
+      "has_evidence": false,
+      "has_trend": true,
+      "has_action": false
+    },
+    "memory_candidates": [
+      "异常主要集中在哪些接口、Peer或区域？",
+      "同时段是否有相关告警或错误码异常？",
+      "是否可以拉取该时段日志进一步确认？"
+    ],
+    "gold_questions": [
+      "这次异常更可能由哪个网元、接口或Peer导致？",
+      "同时段是否有关联告警或变更操作？",
+      "是否可以拉取该时段日志进一步确认？"
+    ],
+    "expected_dimensions": ["root_cause", "evidence", "impact"],
+    "disallowed_questions": [
+      "哪些区域增长最快？"
+    ]
+  },
+  {
+    "id": "fault_error_code_trend",
+    "source_type": "辅助排障",
+    "skill": "CN_FaultSpirit",
+    "original_query": "What error code returned from xxx Peer is in abormal trend",
+    "rewritten_query": "分析xxx Peer返回错误码的异常趋势及原因",
+    "answer_summary": "已经指出错误码存在异常趋势，但未明确影响范围、根因对象和日志证据。",
+    "entities": {
+      "peer": ["xxx Peer"],
+      "alarm": ["错误码异常趋势"]
+    },
+    "result_tags": {
+      "has_root_cause": false,
+      "has_impact": false,
+      "has_evidence": false,
+      "has_trend": true,
+      "has_action": false
+    },
+    "memory_candidates": [
+      "同时段是否有相关告警或错误码异常？",
+      "这次异常更可能由哪个网元、接口或Peer导致？",
+      "是否可以拉取该时段日志进一步确认？"
+    ],
+    "gold_questions": [
+      "这次异常更可能由哪个网元、接口或Peer导致？",
+      "同时段是否有相关告警或错误码异常？",
+      "是否可以拉取该时段日志进一步确认？"
+    ],
+    "expected_dimensions": ["root_cause", "evidence", "impact"],
+    "disallowed_questions": [
+      "与昨天或上周同期相比变化如何？"
+    ]
+  },
+  {
+    "id": "monitor_signal_spike_24h",
+    "source_type": "网络监控",
+    "skill": "CN_NetworkMonitoring",
+    "original_query": "过去24小时，网络各个接口信令流量是否有异常突增？如果有，列出来看一下。",
+    "rewritten_query": "监控过去24小时接口信令流量异常突增并定位对象",
+    "answer_summary": "已发现若干接口信令流量突增，但还缺少业务影响判断和同比环比结论。",
+    "entities": {
+      "interface": ["接口"],
+      "feature": ["信令流量"],
+      "time_window": ["过去24小时"]
+    },
+    "result_tags": {
+      "has_root_cause": false,
+      "has_impact": false,
+      "has_evidence": true,
+      "has_trend": false,
+      "has_action": false
+    },
+    "memory_candidates": [
+      "异常主要集中在哪些接口、Peer或区域？",
+      "这些异常是否已经影响业务成功率？",
+      "与昨天或上周同期相比变化如何？"
+    ],
+    "gold_questions": [
+      "异常主要集中在哪些接口、Peer或区域？",
+      "这些异常是否已经影响业务成功率？",
+      "与昨天或上周同期相比变化如何？",
+      "是否有相关告警或日志同时异常？"
+    ],
+    "expected_dimensions": ["impact", "trend", "evidence"],
+    "disallowed_questions": [
+      "这次异常影响了多少用户？"
+    ]
+  },
+  {
+    "id": "monitor_major_operation_compare",
+    "source_type": "网络监控",
+    "skill": "CN_NetworkMonitoring",
+    "original_query": "重大操作后重要指标的对比，提取有异常的时间点和counter并给出处理建议",
+    "rewritten_query": "对比重大操作后的关键指标并提取异常时点和counter",
+    "answer_summary": "已识别出异常时间点和counter，但还没有说明集中对象、业务影响和关联日志。",
+    "entities": {
+      "kpi": ["重要指标"],
+      "time_window": ["重大操作后"]
+    },
+    "result_tags": {
+      "has_root_cause": false,
+      "has_impact": false,
+      "has_evidence": false,
+      "has_trend": true,
+      "has_action": true
+    },
+    "memory_candidates": [
+      "这些异常是否已经影响业务成功率？",
+      "异常主要集中在哪些接口、Peer或区域？",
+      "是否有相关告警或日志同时异常？"
+    ],
+    "gold_questions": [
+      "异常主要集中在哪些接口、Peer或区域？",
+      "这些异常是否已经影响业务成功率？",
+      "是否有相关告警或日志同时异常？"
+    ],
+    "expected_dimensions": ["impact", "evidence", "root_cause"],
+    "disallowed_questions": [
+      "哪些网元更适合优先扩容？"
+    ]
+  },
+  {
+    "id": "monitor_multi_ems_report",
+    "source_type": "网络监控",
+    "skill": "CN_NetworkMonitoring",
+    "original_query": "现网有多套EMS管理不同代际或区域网元，需要生成小时级/天级/周级/月级指标趋势图，并附上人工分析的指标波动原因说明。",
+    "rewritten_query": "对多EMS网络指标进行多粒度趋势监控和异常分析",
+    "answer_summary": "已汇总多套EMS的指标趋势，但还没有对异常集中对象、业务影响和关联告警做追问。",
+    "entities": {
+      "network_element": ["EMS"],
+      "kpi": ["网络指标"]
+    },
+    "result_tags": {
+      "has_root_cause": false,
+      "has_impact": false,
+      "has_evidence": false,
+      "has_trend": true,
+      "has_action": false
+    },
+    "memory_candidates": [
+      "这些异常是否已经影响业务成功率？",
+      "异常主要集中在哪些接口、Peer或区域？",
+      "是否有相关告警或日志同时异常？"
+    ],
+    "gold_questions": [
+      "异常主要集中在哪些接口、Peer或区域？",
+      "这些异常是否已经影响业务成功率？",
+      "是否有相关告警或日志同时异常？"
+    ],
+    "expected_dimensions": ["impact", "evidence", "root_cause"],
+    "disallowed_questions": [
+      "是否需要创建相关信令跟踪？"
+    ]
+  },
+  {
+    "id": "planning_user_count_summary",
+    "source_type": "网络查询",
+    "skill": "CN_NetworkPlanning",
+    "original_query": "帮我统一下当前4G+NSA用户数、5G SA用户数、VoLTE用户数，VoNR用户数。",
+    "rewritten_query": "统计当前4G+NSA、5G SA、VoLTE、VoNR用户数",
+    "answer_summary": "已经给出当前各类用户数，但还没有给出趋势、区域差异和容量风险。",
+    "entities": {
+      "feature": ["4G+NSA", "5G SA", "VoLTE", "VoNR"]
+    },
+    "result_tags": {
+      "has_root_cause": true,
+      "has_impact": true,
+      "has_evidence": true,
+      "has_trend": false,
+      "has_action": false
+    },
+    "memory_candidates": [
+      "过去一个月这些用户数的增长趋势如何？",
+      "哪些区域增长最快？",
+      "如果保持当前增长速度，哪些网元可能先达到容量瓶颈？"
+    ],
+    "gold_questions": [
+      "过去一个月或一年该指标的趋势如何？",
+      "哪些区域增长最快？",
+      "如果保持当前增长速度，何时达到容量瓶颈？",
+      "哪些网元更适合优先扩容？"
+    ],
+    "expected_dimensions": ["trend", "impact", "action"],
+    "disallowed_questions": [
+      "同时段是否有相关告警或错误码异常？"
+    ]
+  },
+  {
+    "id": "planning_long_kpi_trend",
+    "source_type": "网络KPI趋势分析",
+    "skill": "CN_NetworkPlanning",
+    "original_query": "过去一年，VoNR的注册成功率、呼叫建立成功率、掉话率、呼叫建立时长的趋势是变好了还是恶化了？变化的具体原因是什么？主要因素是什么？",
+    "rewritten_query": "分析过去一年VoNR关键KPI长期趋势及变化原因",
+    "answer_summary": "已经给出长期趋势概览，但还没有给出区域差异、容量风险和后续扩容建议。",
+    "entities": {
+      "feature": ["VoNR"],
+      "kpi": ["注册成功率", "呼叫建立成功率", "掉话率", "呼叫建立时长"],
+      "time_window": ["过去一年"]
+    },
+    "result_tags": {
+      "has_root_cause": true,
+      "has_impact": true,
+      "has_evidence": true,
+      "has_trend": true,
+      "has_action": false
+    },
+    "memory_candidates": [
+      "哪些区域增长最快？",
+      "如果保持当前增长速度，何时达到容量瓶颈？",
+      "哪些网元更适合优先扩容？"
+    ],
+    "gold_questions": [
+      "哪些区域增长最快？",
+      "如果保持当前增长速度，何时达到容量瓶颈？",
+      "哪些网元更适合优先扩容？"
+    ],
+    "expected_dimensions": ["impact", "action", "trend"],
+    "disallowed_questions": [
+      "同时段是否还有其他用户出现类似问题？"
+    ]
+  },
+  {
+    "id": "planning_license_forecast",
+    "source_type": "网络容量预测",
+    "skill": "CN_NetworkPlanning",
+    "original_query": "license话统分析，结合当前话务量或重要指标给出增长趋势，以便后续替换或扩容",
+    "rewritten_query": "分析license相关话统并评估后续替换或扩容趋势",
+    "answer_summary": "已给出license利用率和当前增长情况，但还未说明瓶颈时间点和优先扩容对象。",
+    "entities": {
+      "feature": ["license"],
+      "kpi": ["话务量"]
+    },
+    "result_tags": {
+      "has_root_cause": true,
+      "has_impact": true,
+      "has_evidence": true,
+      "has_trend": true,
+      "has_action": false
+    },
+    "memory_candidates": [
+      "如果保持当前增长速度，何时达到容量瓶颈？",
+      "哪些网元更适合优先扩容？",
+      "哪些区域增长最快？"
+    ],
+    "gold_questions": [
+      "如果保持当前增长速度，何时达到容量瓶颈？",
+      "哪些网元更适合优先扩容？",
+      "哪些区域增长最快？"
+    ],
+    "expected_dimensions": ["action", "impact", "trend"],
+    "disallowed_questions": [
+      "该问题更可能发生在哪个网络环节？"
+    ]
+  },
+  {
+    "id": "planning_region_growth_curve",
+    "source_type": "网络KPI趋势分析",
+    "skill": "CN_NetworkPlanning",
+    "original_query": "输出XX区域，一个月一来的流量增长曲线，用户呼增曲线",
+    "rewritten_query": "分析XX区域近一个月流量增长和用户呼增趋势",
+    "answer_summary": "已输出一个月曲线，但还没有指出增长最快区域、容量风险和扩容优先级。",
+    "entities": {
+      "region": ["XX区域"],
+      "kpi": ["流量增长", "用户呼增"],
+      "time_window": ["一个月"]
+    },
+    "result_tags": {
+      "has_root_cause": true,
+      "has_impact": true,
+      "has_evidence": true,
+      "has_trend": true,
+      "has_action": false
+    },
+    "memory_candidates": [
+      "哪些区域增长最快？",
+      "如果保持当前增长速度，何时达到容量瓶颈？",
+      "哪些网元更适合优先扩容？"
+    ],
+    "gold_questions": [
+      "哪些区域增长最快？",
+      "如果保持当前增长速度，何时达到容量瓶颈？",
+      "哪些网元更适合优先扩容？"
+    ],
+    "expected_dimensions": ["trend", "action", "impact"],
+    "disallowed_questions": [
+      "是否有相关告警或日志同时异常？"
+    ]
+  },
+  {
+    "id": "future_task_execution_trace",
+    "source_type": "任务执行",
+    "skill": "FUTURE_TaskExecution",
+    "original_query": "帮我创建一个跟踪，MSISDN 66xxxxxxxxx, 跟踪PS信令面+用户面，IMS信令面。",
+    "rewritten_query": "创建指定号码PS和IMS信令跟踪任务",
+    "answer_summary": "未来扩展样本，当前不纳入主评分。",
+    "entities": {
+      "msisdn": ["66xxxxxxxxx"]
+    },
+    "result_tags": {
+      "has_root_cause": false,
+      "has_impact": false,
+      "has_evidence": false,
+      "has_trend": false,
+      "has_action": true
+    },
+    "memory_candidates": [],
+    "gold_questions": [
+      "需要在哪些网元范围内创建跟踪？",
+      "跟踪持续时长和过滤条件需要如何设置？",
+      "跟踪创建后是否需要自动拉取结果？"
+    ],
+    "expected_dimensions": ["action"],
+    "disallowed_questions": [],
+    "include_in_primary_score": false
+  },
+  {
+    "id": "future_log_collection",
+    "source_type": "信息收集",
+    "skill": "FUTURE_Collection",
+    "original_query": "采集过去一天、三天、一周的健康检查，事故场景，巡检场景的信息",
+    "rewritten_query": "按多时间窗采集健康检查和巡检场景信息",
+    "answer_summary": "未来扩展样本，当前不纳入主评分。",
+    "entities": {
+      "time_window": ["过去一天", "过去三天", "过去一周"]
+    },
+    "result_tags": {
+      "has_root_cause": false,
+      "has_impact": false,
+      "has_evidence": false,
+      "has_trend": false,
+      "has_action": true
+    },
+    "memory_candidates": [],
+    "gold_questions": [
+      "需要优先采集哪些网元或区域？",
+      "采集结果需要按哪些场景维度归类？",
+      "是否需要在网管创建定时采集任务？"
+    ],
+    "expected_dimensions": ["action"],
+    "disallowed_questions": [],
+    "include_in_primary_score": false
+  }
+]
