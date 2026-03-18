@@ -1,0 +1,4 @@
+interface:
+  display_name: "NOEMate 问题推荐"
+  short_description: "设计基于Skill、记忆和缺口的Top3下一问推荐能力"
+  default_prompt: "使用 $noemate-question-recommendation 设计或实现 NOEMate 会话中的 Top3 下一问推荐能力。"
