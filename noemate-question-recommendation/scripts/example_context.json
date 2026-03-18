@@ -1,0 +1,26 @@
+{
+  "original_query": "Why attach success rate dropped at XX Nov 2024, 02:00?",
+  "rewritten_query": "查询 2024-11-XX 02:00 attach success rate 下降原因",
+  "skill": "CN_FaultSpirit",
+  "answer_summary": "已发现 attach success rate 在目标时段下降，但尚未明确影响范围和根因证据。",
+  "entities": {
+    "network_element": ["MME"],
+    "feature": ["Attach"],
+    "kpi": ["attach success rate"],
+    "time_window": ["2024-11-XX 02:00"]
+  },
+  "result_tags": {
+    "has_root_cause": false,
+    "has_impact": false,
+    "has_evidence": false,
+    "has_trend": false,
+    "has_action": false
+  },
+  "memory_candidates": [
+    "这次异常影响了多少用户？",
+    "哪些区域或网元受到影响最大？",
+    "同时段是否有相关告警或错误码异常？"
+  ],
+  "invalid_candidates": [],
+  "max_candidates": 8
+}
