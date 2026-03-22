@@ -1,0 +1,29 @@
+请严格判断下面的 Top3 推荐问题是否命中了标准推荐结果。
+
+严格评测原则：
+1. 必须是同一个“下一步追问动作”才算命中，只是方向接近不算命中。
+2. 必须是同一个关注点才算命中。例如：
+   - gold 是“看告警/KPI”，prediction 是“改配置/做优化”，不算命中。
+   - gold 是“查影响范围”，prediction 是“查根因对象”，不算命中。
+   - gold 是“看错误码”，prediction 是“看日志”，如果关注点不同，也不算命中。
+3. 允许字面表达不同，但不允许把“相邻动作”“后续动作”“上游动作”“下游动作”判成同一个意图。
+4. 如果 prediction 更泛、更宽、更像上位概念，也不算命中。
+5. 同一条 gold_question 最多只能被一个 prediction 命中。
+6. 如果 prediction 过于泛化、与当前 Skill 不符、或只是复述原问题，则判定为未命中。
+7. 宁可保守，也不要放宽。拿不准时判未命中。
+
+当前样本：
+- id: {sample_id}
+- original_query: {original_query}
+- rewritten_query: {rewritten_query}
+- skills: {skills}
+- final_answer: {final_answer}
+
+标准推荐 gold_questions：
+{gold_questions}
+
+待评测 predictions：
+{predictions}
+
+请只输出以下 JSON 结构：
+{json_schema}

@@ -157,6 +157,13 @@
 - `gold_questions`
 - 待评测模型生成的 `predictions`
 
+当前版本已将评测裁判 Prompt 从脚本中拆出，落盘为：
+
+- `prompts/judge_system_prompt.txt`
+- `prompts/judge_user_prompt.txt`
+
+其中 `judge_user_prompt.txt` 使用占位符注入评测样本与模型输出，不再在脚本中硬编码整段裁判 Prompt。
+
 推荐裁判 Prompt 骨架：
 
 ```text

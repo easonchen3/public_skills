@@ -17,6 +17,7 @@ import concurrent.futures
 import difflib
 import json
 from collections import defaultdict
+from functools import lru_cache
 from pathlib import Path
 from typing import Dict, Iterable, List, Tuple
 
@@ -47,18 +48,17 @@ SKILL_DIMENSIONS = {
     "CN_NetworkPlanning": {"trend", "impact", "action"},
 }
 
-JUDGE_SYSTEM_PROMPT = (
-    "你是 NOEMate 问题推荐评测裁判。"
-    "你只负责判断预测 Top3 是否严格命中了标准推荐问题，不负责重写问题。"
-    "不允许因为方向接近、主题接近、领域接近就判定命中。"
-    "只有当 prediction 和 gold_question 是同一个下一步追问动作、同一个意图、同一个关注点时，才能判定命中。"
-    "拿不准时判未命中。"
-    "你必须输出 JSON，不能输出解释性正文。"
-)
+PROMPTS_DIR = Path(__file__).resolve().parent.parent / "prompts"
 
 
 def normalize(text: str) -> str:
     return "".join(str(text).lower().split())
+
+
+@lru_cache(maxsize=None)
+def load_prompt_template(template_name: str) -> str:
+    template_path = PROMPTS_DIR / template_name
+    return template_path.read_text(encoding="utf-8")
 
 
 def load_dataset(path: Path) -> List[Dict]:
@@ -161,47 +161,38 @@ def extract_json(text: str) -> Dict:
 
 
 def build_judge_prompt(sample: Dict, predictions: List[str]) -> str:
-    return f"""请严格判断下面的 Top3 推荐问题是否命中了标准推荐结果。
+    template = load_prompt_template("judge_user_prompt.txt")
+    payload = {
+        "sample_id": sample.get("id", ""),
+        "original_query": sample.get("original_query", ""),
+        "rewritten_query": sample.get("rewritten_query", ""),
+        "skills": json.dumps(resolve_skills(sample), ensure_ascii=False),
+        "final_answer": sample.get("final_answer", ""),
+        "gold_questions": json.dumps(sample.get("gold_questions", []), ensure_ascii=False, indent=2),
+        "predictions": json.dumps(predictions, ensure_ascii=False, indent=2),
+        "json_schema": json.dumps(
+            {
+                "matched_count": 0,
+                "top3_accuracy": 0.0,
+                "matches": [
+                    {
+                        "prediction": "string",
+                        "is_match": False,
+                        "matched_gold": "string or empty",
+                        "reason": "short reason",
+                    }
+                ],
+                "summary": "short summary",
+            },
+            ensure_ascii=False,
+            indent=2,
+        ),
+    }
+    return template.format(**payload)
 
-严格评测原则：
-1. 必须是同一个“下一步追问动作”才算命中，只是方向接近不算命中。
-2. 必须是同一个关注点才算命中。例如：
-   - gold 是“看告警/KPI”，prediction 是“改配置/做优化”，不算命中。
-   - gold 是“查影响范围”，prediction 是“查根因对象”，不算命中。
-   - gold 是“看错误码”，prediction 是“看日志”，如果关注点不同，也不算命中。
-3. 允许字面表达不同，但不允许把“相邻动作”“后续动作”“上游动作”“下游动作”判成同一个意图。
-4. 如果 prediction 更泛、更宽、更像上位概念，也不算命中。
-5. 同一条 gold_question 最多只能被一个 prediction 命中。
-6. 如果 prediction 过于泛化、与当前 Skill 不符、或只是复述原问题，则判定为未命中。
-7. 宁可保守，也不要放宽。拿不准时判未命中。
 
-当前样本：
-- id: {sample.get("id", "")}
-- original_query: {sample.get("original_query", "")}
-- rewritten_query: {sample.get("rewritten_query", "")}
-- skills: {json.dumps(resolve_skills(sample), ensure_ascii=False)}
-- final_answer: {sample.get("final_answer", "")}
-
-标准推荐 gold_questions：
-{json.dumps(sample.get("gold_questions", []), ensure_ascii=False, indent=2)}
-
-待评测 predictions：
-{json.dumps(predictions, ensure_ascii=False, indent=2)}
-
-请只输出以下 JSON 结构：
-{{
-  "matched_count": 0,
-  "top3_accuracy": 0.0,
-  "matches": [
-    {{
-      "prediction": "string",
-      "is_match": false,
-      "matched_gold": "string or empty",
-      "reason": "short reason"
-    }}
-  ],
-  "summary": "short summary"
-}}"""
+def get_judge_system_prompt() -> str:
+    return load_prompt_template("judge_system_prompt.txt").strip()
 
 
 def judge_with_model(
@@ -217,7 +208,7 @@ def judge_with_model(
 ) -> Dict:
     client = create_openai_client(api_key=api_key, base_url=base_url, api_key_env=api_key_env)
     messages = [
-        {"role": "system", "content": JUDGE_SYSTEM_PROMPT},
+        {"role": "system", "content": get_judge_system_prompt()},
         {"role": "user", "content": build_judge_prompt(sample, predictions)},
     ]
 
