@@ -2,25 +2,43 @@
   "original_query": "Why attach success rate dropped at XX Nov 2024, 02:00?",
   "rewritten_query": "查询 2024-11-XX 02:00 attach success rate 下降原因",
   "skill": "CN_FaultSpirit",
-  "answer_summary": "已发现 attach success rate 在目标时段下降，但尚未明确影响范围和根因证据。",
-  "entities": {
-    "network_element": ["MME"],
-    "feature": ["Attach"],
-    "kpi": ["attach success rate"],
-    "time_window": ["2024-11-XX 02:00"]
+  "skills": [
+    "CN_FaultSpirit"
+  ],
+  "user_features": {
+    "用户职责": [
+      "云核运维工程师"
+    ],
+    "网络流量异常": [
+      "波动超过10%阈值"
+    ],
+    "泰国北区": [
+      "清迈府",
+      "清莱府"
+    ]
   },
-  "result_tags": {
-    "has_root_cause": false,
-    "has_impact": false,
-    "has_evidence": false,
-    "has_trend": false,
-    "has_action": false
-  },
-  "memory_candidates": [
+  "knowledge_summary": "系统已检索到 attach 流程、常见失败点和相关网元告警的知识摘要。",
+  "plan_summary": "主流程已经完成异常识别，下一步更适合分析影响范围、根因方向和证据补强。",
+  "execution_summary": "目标时段 attach success rate 明显下降，当前尚未定位到唯一根因对象，也没有恢复动作结论。",
+  "answer_summary": "已确认指标下降现象，但尚未明确影响用户范围、根因对象和日志证据。",
+  "final_answer": "attach success rate 在目标时段出现明显下降，当前只能确认现象，尚不能直接确认根因，建议继续围绕影响范围和证据下钻。",
+  "memory_questions": [
     "这次异常影响了多少用户？",
     "哪些区域或网元受到影响最大？",
     "同时段是否有相关告警或错误码异常？"
   ],
-  "invalid_candidates": [],
-  "max_candidates": 8
+  "entities": {
+    "network_element": [
+      "MME"
+    ],
+    "feature": [
+      "Attach"
+    ],
+    "kpi": [
+      "attach success rate"
+    ],
+    "time_window": [
+      "2024-11-XX 02:00"
+    ]
+  }
 }

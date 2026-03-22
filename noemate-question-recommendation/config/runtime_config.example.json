@@ -1,0 +1,32 @@
+{
+  "shared": {
+    "api_key": "",
+    "api_key_env": "OPENAI_API_KEY",
+    "base_url": "https://api.deepseek.com/v1",
+    "temperature": 0.2,
+    "max_tokens": 800
+  },
+  "recommend_questions": {
+    "model": "deepseek-chat",
+    "api_key": "",
+    "api_key_env": "",
+    "base_url": "",
+    "temperature": 0.2,
+    "max_tokens": 600
+  },
+  "evaluate_recommendation": {
+    "generator_mode": "llm",
+    "generator_model": "deepseek-chat",
+    "generator_api_key": "",
+    "generator_api_key_env": "",
+    "generator_base_url": "",
+    "judge_mode": "llm",
+    "judge_model": "deepseek-chat",
+    "judge_api_key": "",
+    "judge_api_key_env": "",
+    "judge_base_url": "",
+    "temperature": 0.2,
+    "max_tokens": 800,
+    "concurrency": 5
+  }
+}
