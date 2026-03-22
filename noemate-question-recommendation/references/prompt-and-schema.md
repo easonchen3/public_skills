@@ -49,6 +49,13 @@
 
 ## 核心 Prompt
 
+当前版本已将生成 Prompt 从脚本中拆出，落盘为：
+
+- `prompts/generation_system_prompt.txt`
+- `prompts/generation_user_prompt.txt`
+
+其中 `generation_user_prompt.txt` 使用占位符注入上下文，不再在脚本中硬编码整段 Prompt。
+
 ```text
 你是 NOEMate 的问题推荐模块。
 

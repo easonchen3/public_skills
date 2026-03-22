@@ -16,6 +16,7 @@ import difflib
 import json
 import os
 import re
+from functools import lru_cache
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional
@@ -146,11 +147,7 @@ GAP_FALLBACKS = {
     ],
 }
 
-GENERATION_SYSTEM_PROMPT = (
-    "你是 NOEMate 的问题推荐模型。"
-    "你只负责生成主回答之后最值得继续追问的 3 个下一步问题。"
-    "输出必须是中文问题列表，不要输出解释。"
-)
+PROMPTS_DIR = Path(__file__).resolve().parent.parent / "prompts"
 
 
 @dataclass
@@ -289,66 +286,38 @@ def build_skill_preferences(skills: List[str]) -> str:
     return "\n".join(lines) if lines else "- 优先推荐最贴合当前上下文、最能推动下一步任务的问题。"
 
 
-def build_prompt(ctx: Context) -> str:
+@lru_cache(maxsize=None)
+def load_prompt_template(template_name: str) -> str:
+    template_path = PROMPTS_DIR / template_name
+    return template_path.read_text(encoding="utf-8")
+
+
+def build_prompt_payload(ctx: Context) -> Dict[str, str]:
     skills = resolve_skills(ctx)
-    skill_text = ", ".join(skills) if skills else (ctx.skill or "无")
-    return f"""你是 NOEMate 的问题推荐模块。
-你的任务是在主回答结束后，基于当前完整会话上下文、当前 Skill 的语义边界以及类似场景的高频追问参考，直接生成 3 个最合适的下一步问题。
-这不是相似问句扩写任务。你的目标是判断：在当前回答之后，用户最可能继续问、且最能推动任务向前推进的 3 个问题是什么。
+    return {
+        "original_query": ctx.original_query or "无",
+        "rewritten_query": ctx.rewritten_query or "无",
+        "skills": ", ".join(skills) if skills else (ctx.skill or "无"),
+        "user_features": format_mapping(ctx.user_features),
+        "knowledge_summary": ctx.knowledge_summary or "无",
+        "plan_summary": ctx.plan_summary or "无",
+        "execution_summary": ctx.execution_summary or "无",
+        "answer_summary": ctx.answer_summary or "无",
+        "final_answer": ctx.final_answer or "无",
+        "entities": format_mapping(ctx.entities),
+        "result_tags": format_result_tags(ctx.result_tags),
+        "skill_preferences": build_skill_preferences(skills),
+        "memory_questions": format_memory_questions(ctx.memory_questions),
+    }
 
-你需要在内部完成四件事：
-1. 判断当前任务阶段，例如知识解释、数据查询、异常发现、根因定位、结果验证或规划分析。
-2. 判断当前回答已经覆盖了什么、还缺什么，例如影响范围、根因、证据、趋势、运维动作。
-3. 结合当前 Skill，选择最符合该 Skill 语义边界的下一步问题。
-4. 参考高频追问的语言风格，但不要机械照抄。
 
-输入上下文：
-原始问题：{ctx.original_query or "无"}
+def build_prompt(ctx: Context) -> str:
+    template = load_prompt_template("generation_user_prompt.txt")
+    return template.format(**build_prompt_payload(ctx))
 
-改写问题：{ctx.rewritten_query or "无"}
 
-当前 Skill：{skill_text}
-
-用户特征：
-{format_mapping(ctx.user_features)}
-
-知识摘要：{ctx.knowledge_summary or "无"}
-
-任务规划摘要：{ctx.plan_summary or "无"}
-
-执行结果摘要：{ctx.execution_summary or "无"}
-
-回答摘要：{ctx.answer_summary or "无"}
-
-最终回答：
-{ctx.final_answer or "无"}
-
-可选结构化信息：
-实体：
-{format_mapping(ctx.entities)}
-
-结果标签：
-{format_result_tags(ctx.result_tags)}
-
-当前 Skill 的推荐偏好：
-{build_skill_preferences(skills)}
-
-类似场景高频追问，仅供参考，不得机械照抄：
-{format_memory_questions(ctx.memory_questions)}
-
-输出规则：
-- 只输出 3 个问题
-- 使用如下格式：
-1. ...
-2. ...
-3. ...
-- 每一条都必须是完整、自然、可直接点击追问的问题句
-- 不要输出解释、标题、分类、原因、前后缀说明
-- 不要重复当前问题，不要复述主回答
-- 不要输出“还有什么可以看”“还有哪些异常”这类泛问题
-- 如果某个维度已经被当前回答覆盖，优先补足尚未覆盖的维度
-- 优先在当前 Skill 内推进，不要无故跳到其他 Skill
-- 与当前会话语言保持一致"""
+def get_generation_system_prompt() -> str:
+    return load_prompt_template("generation_system_prompt.txt").strip()
 
 
 def build_gap_fallbacks(ctx: Context) -> List[str]:
@@ -475,7 +444,7 @@ def generate_top3_with_model(
     raw_text = request_model_text(
         model=model,
         messages=[
-            {"role": "system", "content": GENERATION_SYSTEM_PROMPT},
+            {"role": "system", "content": get_generation_system_prompt()},
             {"role": "user", "content": prompt},
         ],
         temperature=temperature,
